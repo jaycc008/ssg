@@ -20,9 +20,13 @@ def main():
 
 	node = TextNode("This is text with 2 `code``blocks` word", TextType.TEXT)
 	new_nodes = split_nodes_delimiter([node], "`", TextType.CODE)
+	print(f"split nodes: {new_nodes}")
 
 	extract_markdown_images("This is text with a ![rick roll](https://i.imgur.com/aKaOqIh.gif) and ![obi wan](https://i.imgur.com/fJRm4Vk.jpeg)")
+	print(extract_markdown_images(f"extracted images: {text}"))
 
-	text = "This is text with a link"
-	print(extract_markdown_links(text))
+	text = "This is text with a link [to boot dev](https://www.boot.dev) and [to youtube](https://www.youtube.com/@bootdotdev) ![rick roll](https://i.imgur.com/aKaOqIh.gif)"
+	print(extract_markdown_links(f"extracted links: {text}"))
+
+
 main()
