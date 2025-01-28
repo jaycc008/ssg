@@ -19,7 +19,76 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
                 new_node = TextNode(segments[i], TextType.TEXT)
             else:
                 new_node = TextNode(segments[i], text_type)
-            node_lst.append(new_node)
+            if new_node.text != "":
+                node_lst.append(new_node)
+    return node_lst
+
+def split_nodes_image(old_nodes):
+    node_lst = []
+    for node in old_nodes:
+        if node.text_type != TextType.TEXT:
+            node_lst.append(node)
+            continue
+
+        images = extract_markdown_images(node.text)
+
+        if len(images) == 0:
+            node_lst.append(node)
+            continue
+        
+        segments = []
+        node_text = node.text
+
+        for img in images:
+            alt = img[0]
+            url = img[1]
+            delimiter = f"![{alt}]({url})"
+            [before, after] = node_text.split(delimiter, 1)
+
+            if before != "":
+                segments.append(TextNode(before, TextType.TEXT))
+
+            segments.append(TextNode(alt, TextType.IMAGE, url))
+
+            node_text = after
+
+        if node_text:
+            segments.append(TextNode(node_text, TextType.TEXT))
+        node_lst.extend(segments)
+    return node_lst
+
+def split_nodes_link(old_nodes):
+    node_lst = []
+    for node in old_nodes:
+        if node.text_type != TextType.TEXT:
+            node_lst.append(node)
+            continue
+
+        links = extract_markdown_links(node.text)
+
+        if len(links) == 0:
+            node_lst.append(node)
+            continue
+        
+        segments = []
+        node_text = node.text
+
+        for link in links:
+            txt = link[0]
+            url = link[1]
+            delimiter = f"[{txt}]({url})"
+            [before, after] = node_text.split(delimiter, 1)
+
+            if before != "":
+                segments.append(TextNode(before, TextType.TEXT))
+
+            segments.append(TextNode(txt, TextType.LINK, url))
+
+            node_text = after
+
+        if node_text:
+            segments.append(TextNode(node_text, TextType.TEXT))
+        node_lst.extend(segments)
     return node_lst
 
 def extract_markdown_images(text):
