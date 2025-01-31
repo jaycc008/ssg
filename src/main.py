@@ -1,5 +1,5 @@
 from htmlnode import LeafNode, ParentNode
-from markdown_parser import extract_markdown_images, extract_markdown_links, split_nodes_delimiter, split_nodes_image, split_nodes_link, text_to_textnodes
+from markdown_parser import extract_markdown_images, extract_markdown_links, markdown_to_blocks, split_nodes_delimiter, split_nodes_image, split_nodes_link, text_to_textnodes
 from textnode import TextNode, TextType
 
 def main():
@@ -38,5 +38,7 @@ def main():
 
 	nodes = text_to_textnodes("This is **text** with an *italic* word and a `code block` and an ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) and a [link](https://boot.dev)")
 	print(nodes)
+
+	markdown_to_blocks("This is a block\n\nThis is another block\n\nThis is the last block\n\n\n\n\n yo   ")
 
 main()

@@ -102,6 +102,12 @@ def text_to_textnodes(text):
 
     return nodes
 
+def markdown_to_blocks(markdown):
+    blocks = list(map(lambda x: x.replace("\n", "").strip(), markdown.split("\n\n")))
+    blocks = list(filter(lambda x: x != "", blocks))
+    return blocks
+
+
 def extract_markdown_images(text):
     matches = re.findall(r"!\[(.*?)\]\((.*?)\)", text)
     return matches
