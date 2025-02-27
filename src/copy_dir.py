@@ -15,4 +15,7 @@ def copy_files_recursive(src, dst):
 				shutil.copy(src_path, dst_path)
 			else:
 				copy_files_recursive(src_path, dst_path)
+
+def copy_files(src, dst):
+	shutil.copytree(src, dst)
 	
