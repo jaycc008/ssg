@@ -1,13 +1,16 @@
 import os
+import shutil
+from copy_dir import copy_files_recursive
 
 
 def main():
 	src = "static"
-	copy_dir(src, "")
+	dst = "public"
 
-def copy_dir(src, dst):
-	if os.path.exists(src):
-		print(os.listdir(src))		
+	if os.path.exists(dst):
+		shutil.rmtree(dst)
+
+	copy_files_recursive(src, dst)
 
 
 main()
