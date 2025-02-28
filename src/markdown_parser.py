@@ -11,6 +11,16 @@ class BlockType(Enum):
     UL = "unordered_list"
     OL = "ordered_list"
 
+def text_to_textnodes(text):
+    nodes = [TextNode(text, TextType.TEXT)]
+    nodes = split_nodes_delimiter(nodes, "**", TextType.BOLD)
+    nodes = split_nodes_delimiter(nodes, "*", TextType.ITALIC)
+    nodes = split_nodes_delimiter(nodes, "`", TextType.CODE)
+    nodes = split_nodes_link(nodes)
+    nodes = split_nodes_image(nodes)
+
+    return nodes
+
 def split_nodes_delimiter(old_nodes, delimiter, text_type):
     node_lst = []
     for node in old_nodes:
@@ -176,16 +186,6 @@ def quote_to_html_node(block):
     content = " ".join(new_lines)
     children = text_to_children(content)
     return ParentNode("blockquote", children)
-
-def text_to_textnodes(text):
-    nodes = [TextNode(text, TextType.TEXT)]
-    nodes = split_nodes_delimiter(nodes, "**", TextType.BOLD)
-    nodes = split_nodes_delimiter(nodes, "*", TextType.ITALIC)
-    nodes = split_nodes_delimiter(nodes, "`", TextType.CODE)
-    nodes = split_nodes_link(nodes)
-    nodes = split_nodes_image(nodes)
-
-    return nodes
 
 def markdown_to_blocks(markdown):
     blocks = list(map(lambda x: x.strip(), markdown.split("\n\n")))
