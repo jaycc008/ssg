@@ -1,6 +1,6 @@
 import os
 import shutil
-from copy_dir import copy_files, copy_files_recursive
+from copy_dir import copy_files
 
 
 def main():
