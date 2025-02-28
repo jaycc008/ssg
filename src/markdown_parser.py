@@ -15,6 +15,7 @@ def text_to_textnodes(text):
     nodes = [TextNode(text, TextType.TEXT)]
     nodes = split_nodes_delimiter(nodes, "**", TextType.BOLD)
     nodes = split_nodes_delimiter(nodes, "*", TextType.ITALIC)
+    nodes = split_nodes_delimiter(nodes, "_", TextType.ITALIC)
     nodes = split_nodes_delimiter(nodes, "`", TextType.CODE)
     nodes = split_nodes_link(nodes)
     nodes = split_nodes_image(nodes)
@@ -182,7 +183,9 @@ def quote_to_html_node(block):
     lines = block.split("\n")
     new_lines = []
     for line in lines:
-        new_lines.append(line.lstrip(">").strip())
+        content = line.lstrip(">").strip()
+        if content:
+            new_lines.append(content)
     content = " ".join(new_lines)
     children = text_to_children(content)
     return ParentNode("blockquote", children)
