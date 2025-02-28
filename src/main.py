@@ -1,7 +1,7 @@
 import os
 import shutil
 from copy_dir import copy_files
-from generate_html import generate_page
+from generate_html import generate_page, generate_pages_recursive
 
 
 def main():
@@ -13,7 +13,7 @@ def main():
 
 	copy_files(src, dst)
 
-	generate_page("content/index.md", "template.html", "public/index.html")
+	generate_pages_recursive("content", "template.html", dst)
 
 
 main()

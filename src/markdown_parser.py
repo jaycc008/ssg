@@ -196,15 +196,16 @@ def markdown_to_blocks(markdown):
     return blocks
 
 def block_to_block_type(block):
+    lines = block.split("\n")
     if match_heading(block):
         block_type = BlockType.HEADING
-    elif match_code_block(block):
+    elif match_code_block(lines):
         block_type = BlockType.CODE
-    elif match_quote_block(block):
+    elif match_quote_block(lines):
         block_type = BlockType.QUOTE
-    elif match_ul(block):
+    elif match_ul(lines):
         block_type = BlockType.UL
-    elif match_ol(block):
+    elif match_ol(lines):
         block_type = BlockType.OL
     else:
         block_type = BlockType.PARAGRAPH
@@ -213,25 +214,22 @@ def block_to_block_type(block):
 def match_heading(block):
     return re.match(r"(^#{1,6} )", block)
     
-def match_code_block(block):
-    return re.match(r"(```[\s\S]+```)", block)
+def match_code_block(lines):
+    return len(lines) > 1 and lines[0].startswith("```") and lines[-1].startswith("```")
 
-def match_quote_block(block):
-    lines = block.split("\n")
+def match_quote_block(lines):
     for line in lines:
         if not re.match(r"(>)", line):
             return False
     return True
 
-def match_ul(block):
-    lines = block.split("\n")
+def match_ul(lines):
     for line in lines:
         if not re.match(r"(- )", line) and not re.match(r"(\* )", line):
             return False
     return True
 
-def match_ol(block):
-    lines = block.split("\n")
+def match_ol(lines):
     for i, line in enumerate(lines):
         if not re.match(rf"({i+1}. )", line):
             return False
