@@ -1,7 +1,7 @@
 import os
 import shutil
 from copy_dir import copy_files
-from utils import extract_title
+from generate_html import generate_page
 
 
 def main():
@@ -12,6 +12,8 @@ def main():
 		shutil.rmtree(dst)
 
 	copy_files(src, dst)
+
+	generate_page("content/index.md", "template.html", "public/index.html")
 
 
 main()

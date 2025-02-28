@@ -1,6 +1,6 @@
 from enum import Enum
 import re
-from htmlnode import LeafNode, ParentNode
+from htmlnode import ParentNode
 from textnode import TextNode, TextType, text_node_to_html_node
 
 class BlockType(Enum):
@@ -152,13 +152,13 @@ def paragraph_to_html_node(block):
 
 def heading_to_html_node(block):
     heading_count = block.count('#')
-    children = text_to_children(block[heading_count+1])
+    children = text_to_children(block[heading_count+1:])
     return ParentNode(f"h{heading_count}", children)
 
 def code_to_html_node(block):
     children = text_to_children(block[3:-3])
     code = ParentNode("code", children)
-    return ParentNode("pre", code)
+    return ParentNode("pre", [code])
 
 def ol_to_html_node(block):
     items = block.split("\n")
