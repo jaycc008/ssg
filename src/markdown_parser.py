@@ -183,9 +183,7 @@ def quote_to_html_node(block):
     lines = block.split("\n")
     new_lines = []
     for line in lines:
-        content = line.lstrip(">").strip()
-        if content:
-            new_lines.append(content)
+        new_lines.append(line.lstrip(">").strip())
     content = " ".join(new_lines)
     children = text_to_children(content)
     return ParentNode("blockquote", children)
