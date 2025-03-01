@@ -6,11 +6,10 @@ from generate_html import generate_pages_recursive
 
 
 def main():
-	if len(sys.argv) > 0:
-		basepath = sys.argv[0]
+	if len(sys.argv) > 1:
+		basepath = sys.argv[1]
 	else:
 		basepath = "/"
-	print(sys.argv)
 	
 	src = "static"
 	dst = "docs"
